@@ -32,7 +32,7 @@ public class Extract {
        {
     	   if(tweets.get(i).getTimestamp().isAfter(end));
     		end=tweets.get(i).getTimestamp();
-    	   if(start.isAfter(tweets.get(i).getTimestamp()))
+    	   if(tweets.get(i).getTimestamp().isBefore(start))
     		 start=tweets.get(i).getTimestamp();   
        }
         Timespan time=new Timespan(start,end);

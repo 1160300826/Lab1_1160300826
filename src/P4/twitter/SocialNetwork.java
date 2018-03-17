@@ -53,17 +53,41 @@ public class SocialNetwork {
 		for (int i = 0; i < tweets.size(); i++) {
 			String[] temp = tweets.get(i).getText().split(" ");
 			int flag = 0;
-			Set<String> name = new HashSet<String>();
+			int flag1=0;
+			Set<String> name = new HashSet();
 			for (int j = 0; j < temp.length; j++) {
 				for (int k = 0; k < tweets.size(); k++) {
 					if (temp[j].equalsIgnoreCase('@' + tweets.get(k).getAuthor())) {
-						name.add(tweets.get(k).getAuthor());
-						flag = 1;
+						{
+							name.add(tweets.get(k).getAuthor());
+							flag = 1;
+							for (int a = 0; a < tweets.size(); a++) {
+                             if(tweets.get(a).getAuthor()==tweets.get(k).getAuthor())
+                             {
+                            	 String[] temp2 = tweets.get(a).getText().split(" ");
+                            	 System.out.println("");
+                            	 for (int j1 = 0; j1 < temp2.length; j1++) {
+                            		 for (int k2 = 0; k2 < tweets.size(); k2++)
+                            		 {
+                            			 if (temp2[j1].equalsIgnoreCase('@' + tweets.get(k2).getAuthor()))
+                            			 { 
+                                             name.add(tweets.get(k2).getAuthor());
+                            	
+                            			 }
+                            		 }
+                            	 }
+                            	 
+  
+                             }
+							}
+
+						}
+
 					}
 				}
 			}
 			if (flag == 1) {
-				map.put(tweets.get(i).getAuthor(), name);
+				map.put(tweets.get(i).getAuthor(),name);
 			}
 
 		}
@@ -89,28 +113,26 @@ public class SocialNetwork {
 			notsorted.put(key, i);
 		}
 		Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<Map.Entry<String, Integer>>(
-                notsorted.entrySet());
-        Collections.sort(entryList, new MapValueComparator());
+		List<Map.Entry<String, Integer>> entryList = new ArrayList<Map.Entry<String, Integer>>(notsorted.entrySet());
+		Collections.sort(entryList, new MapValueComparator());
 
-        Iterator<Map.Entry<String, Integer>> iter = entryList.iterator();
-        Map.Entry<String, Integer> tmpEntry = null;
-        while (iter.hasNext()) {
-            tmpEntry = iter.next();
-            /*System.out.println(tmpEntry.getKey()+"  :"+tmpEntry.getValue());*/
-            follows.add(tmpEntry.getKey());
-        }
-        return follows;
-	  
+		Iterator<Map.Entry<String, Integer>> iter = entryList.iterator();
+		Map.Entry<String, Integer> tmpEntry = null;
+		while (iter.hasNext()) {
+			tmpEntry = iter.next();
+			/* System.out.println(tmpEntry.getKey()+"  :"+tmpEntry.getValue()); */
+			follows.add(tmpEntry.getKey());
+		}
+		return follows;
 
 	}
-	}
- class MapValueComparator implements Comparator<Map.Entry<String, Integer>> {
+}
 
-	    @Override
-	    public int compare(Entry<String, Integer> me1, Entry<String, Integer> me2) {
+class MapValueComparator implements Comparator<Map.Entry<String, Integer>> {
 
-	        return me2.getValue().compareTo(me1.getValue());
-	    }
+	@Override
+	public int compare(Entry<String, Integer> me1, Entry<String, Integer> me2) {
+
+		return me2.getValue().compareTo(me1.getValue());
 	}
-	
+}
